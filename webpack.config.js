@@ -1,9 +1,15 @@
 //console.log(__dirname);
 
 const path = require('path');
-//console.log(path.join(__dirname, 'script'))
-//You must install webpack before this code can work
-module.exports = {
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+
+
+module.exports = (env) => {
+const isProduction = env === "production";
+const CSSExtract = new ExtractTextPlugin('styles.css');
+
+return {
 //this your original js file
     entry: "./src/app.js",
     output: {
@@ -22,16 +28,30 @@ module.exports = {
             exclude: /node_modules/
         }, {
             test: /\.s?css$/,
-            use: [
-                "style-loader",
-                "css-loader",
-                "sass-loader"
-            ]
+            use: CSSExtract.extract({
+                use: [
+                   {
+                       loader: 'css-loader',
+                       options: {
+                           sourceMap: true
+                       }
+                   },
+                   {
+                       loader: "sass-loader",
+                       options: {
+                           source: true
+                       }
+                   }
+                ]
+            })
         }]
     },
+    plugins: [
+        CSSExtract
+    ],
 //this is a webpack feature that helps detact the source
 //of the component that has the error   
-    devtool: 'cheap-module-eval-source-map',
+    devtool: isProduction ? "source-map" : 'inline-source-map',
 //the is used to live the index.html file that is to be served 
 //you must install the yarn add webpack-dev-server@2.5.1 before you can used it
     devServer: {
@@ -39,3 +59,8 @@ module.exports = {
         historyApiFallback: true
     }
 };
+
+
+}
+//console.log(path.join(__dirname, 'script'))
+//You must install webpack before this code can work
