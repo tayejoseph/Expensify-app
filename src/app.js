@@ -17,15 +17,6 @@ import 'react-dates/lib/css/_datepicker.css'; //the css that came with the react
 
 const store = configureStore(); //this is gotten from our configureStore file
 
-store.dispatch(addExpense({ description: 'Water bill', amount: 4500 }));
-store.dispatch(addExpense({ description: 'gas bill', createdAt: 1000 }));
-store.dispatch(addExpense({ description: 'Rent', amount: 109500 }));
-
-
-const state = store.getState();
-const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);
-console.log(visibleExpenses);
-
 //Provide is a redux tag that is used for creating store
 const jsx = (
     <Provider store = {store}> 
