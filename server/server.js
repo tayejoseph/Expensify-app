@@ -6,7 +6,7 @@ const express = require("express");
 const app = express(); //this creates an express application
 const publicPath = path.join(__dirname, "..", "public"); //this take us to the public directory from our current path
 //the const below means that if heroku gives a port name then is shld not use the 3000 & vice versa
-const port = process.env.PORT //I removed "//3000" which so poss to be here because it is not making the server to work; 
+const port = process.env.PORT||3000; //I removed "" which so poss to be here because it is not making the server to work; 
 app.use(express.static(publicPath));//this tell express to use our public directory to serve up all our static asset
 
 //the func below make return index.html if the address is not found
