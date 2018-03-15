@@ -13,7 +13,7 @@ return {
 //this your original js file
     entry: "./src/app.js",
     output: {
-        path: path.join(__dirname, 'public'),
+        path: path.join(__dirname, 'public',"dist"),//this tell web pack to go to our current directory then to public/dist so that it can find the bundle.js file
 //this is the one web pack compile
         filename: "bundle.js"
     },
@@ -56,7 +56,8 @@ return {
 //you must install the yarn add webpack-dev-server@2.5.1 before you can used it
     devServer: {
         contentBase: path.join(__dirname, 'public'),
-        historyApiFallback: true
+        historyApiFallback: true,
+        publicPath: "/dist/"
     }
 };
 
