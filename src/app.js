@@ -13,6 +13,7 @@ import getVisibleExpenses from "./selectors/expenses"; // note no {} because it 
 import "normalize.css/normalize.css";
 import "./styles/style.scss"
 import 'react-dates/lib/css/_datepicker.css'; //the css that came with the react-date library
+import './firebase/firebase';
 
 
 const store = configureStore(); //this is gotten from our configureStore file

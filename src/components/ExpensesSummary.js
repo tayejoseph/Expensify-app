@@ -14,6 +14,7 @@ export const ExpensesSummary = ({ expenseCount, expensesTotal}) => {
     );
 };
 
+
 const mapStateToProps = (state) => {
     const visibleExpenses = selectExpenses(state.expenses, state.filters);
 
@@ -22,4 +23,6 @@ const mapStateToProps = (state) => {
         expensesTotal: selectExpensesTotal(visibleExpenses)
     };
 };
+
+//it think we use connect when we want to use a state from another file
 export default connect(mapStateToProps)(ExpensesSummary);
