@@ -41,3 +41,33 @@ export const editExpense = (id, updates) => ({
     id,
     updates
 });
+
+
+//SET_EXPENSES
+export const setExpenses = (expenses) => ({
+    type: "SET_EXPENSES",
+    expenses
+});
+
+//this export is used to get our data from firebase as soon as our page is loaded
+export const startSetExpenses = () => {
+  return (dispatch) => {
+      //this is tell database to get our expenses value once
+     return  database.ref('expenses').once('value').then((snapshot) => {
+        const expenses = [];
+        //this is used to get our expense from firebase and turn it into an array of objects
+        snapshot.forEach((childSnapShot) => {
+            expenses.push({
+                id: childSnapShot.key,//this turn our id to firebase key
+                ...childSnapShot.val()
+            });
+        });
+        //this is now used to set the expenses on our page passing the expenses we got from our firebase as an argument
+        dispatch(setExpenses(expenses));
+      });
+  };
+};
+
+
+
+

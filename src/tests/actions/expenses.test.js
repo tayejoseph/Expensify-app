@@ -1,6 +1,6 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from "redux-thunk";
-import { startAddExpense, addExpense, editExpense, removeExpense } from "../../actions/expenses";
+import { startAddExpense, addExpense, editExpense, removeExpense, setExpenses, startSetExpenses } from "../../actions/expenses";
 import expenses from "../fixtures/expenses";
 import database from "../../firebase/firebase";
 //expect.any(String) this means the code should expect a string as id because the id is unique
@@ -8,6 +8,15 @@ import database from "../../firebase/firebase";
 
 const createMockStore = configureMockStore([thunk]); //we are configuring mock store from our libraries
 
+//this is used to get our data from firebase when ever the page reloads
+beforeEach((done) => {
+    const expenseData = {};
+    expenses.forEach(({id, description, note, amount, createdAt }) => {
+        expenseData[id] = { description, note, amount, createdAt };
+    });
+    //the sdone is used so that the data will first be fatched from the database before the foreach runs
+    database.ref("expenses").set(expenseData).then(() => done())
+});
 
 test('Should set up remove expense action object', () => {
     const action = removeExpense({ id: "123abc" });
@@ -90,17 +99,26 @@ const store = createMockStore({});
                 expect(snapshot.val()).toEqual(expenseDefaults);
                 done();
         });
+});  
+
+
+test("Should setup set expense action object with data", () => {
+const action = setExpenses(expenses);
+expect(action).toEqual({
+    type: "SET_EXPENSES",
+    expenses
 });
-// test("should setup add expense action object with default values", () => {
-//    const action = addExpense();
-//    expect(action).toEqual({
-//        type: "ADD_EXPENSE",
-//        expense: {
-//            id: expect.any(String),
-//            description: "",
-//            note: "",
-//            amount: 0,
-//            createdAt: 0
-//        }
-//    });
-// });
+});
+
+
+test("Should fetch the expenses from firebase", (done) => {
+    const store = createMockStore({});//this is our mock store
+    store.dispatch(startSetExpenses()).then(() => {
+        const actions = store.getActions();
+        expect(actions[0]).toEqual({ //i think the action[0] is from the firebase expense-test in our store
+            type: "SET_EXPENSES",
+            expenses
+        });
+    done(); //this make jest to wait until done() completes
+});
+});

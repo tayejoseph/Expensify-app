@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from "react-redux";
 import AppRouter from "./routers/AppRouter";
 import configureStore from "./store/configureStore";
-import { addExpense } from './actions/expenses'; //note the {} because this is a named export
+import { startSetExpenses } from './actions/expenses'; //note the {} because this is a named export
 import { setTextFilter } from "./actions/filters";
 import getVisibleExpenses from "./selectors/expenses"; // note no {} because it is a default export
 import "normalize.css/normalize.css";
@@ -25,5 +25,12 @@ const jsx = (
     </Provider>
 );
 
+//this will show when our expenses is not ready
+ReactDOM.render(<p>Loading...</p>, document.getElementById("app"))
 
-ReactDOM.render(jsx, document.getElementById("app"))
+//this will render the page when our expenses is ready from firebase
+
+store.dispatch(startSetExpenses()).then(() => {
+    ReactDOM.render(jsx, document.getElementById("app"))
+});
+
