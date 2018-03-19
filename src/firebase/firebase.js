@@ -10,7 +10,14 @@ const config = {
     messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID
   };
 
+
 firebase.initializeApp(config);
 const database = firebase.database();
 
-export { firebase, database as default };
+
+//this is for our authentication
+//1st for us to be able to use firebase auth system we need to authenticate it in our firebase app
+//this create a google sign page that is used as a popup page in auth.js
+const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+
+export { firebase, googleAuthProvider, database as default };

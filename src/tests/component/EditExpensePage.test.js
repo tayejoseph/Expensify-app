@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import expenses from "../fixtures/expenses";
-import { EditExpense } from "../../components/EditExpensePage";
+import { EditExpensePage } from "../../components/EditExpensePage";
 
 let startEditExpense, startRemoveExpense, history, wrapper;
 

@@ -1,14 +1,13 @@
 import React from "react";
-import { BrowserRouter, Route, Switch, Link, NavLink } from "react-router-dom";
+import { Router, Route, Switch, Link, NavLink } from "react-router-dom";
+import createHistory from "history/createBrowserHistory"; //this is gotten from the history dependecy we installed
 import ExpanseDashboardPage from "../components/ExpanseDashboardPage";
 import AddExpensePage from "../components/AddExpensePage";
 import EditExpensePage from "../components/EditExpensePage";
-import Header from "../components/Header";
 import HelpPage from "../components/HelpPage";
 import NotFoundPage from "../components/NotFoundPage";
-
-//import IndecisionApp from "./components/IndecisionApp";
-
+import LoginPage from "../components/loginPage"; //this is a name export that is why we add the { LoginPage } like that 
+import PrivateRoute from "./PrivateRoute";
 
 
 
@@ -29,21 +28,21 @@ import NotFoundPage from "../components/NotFoundPage";
 //the is ativeClassName is a feature of NavLink that helps us to style NavLink when ever it is active
 
 
-
+export const history = createHistory();
 //the Header tag inside our routes show in every page because it is not under the switch tag
 const AppRouter = () => (
-    <BrowserRouter>
+    <Router history = {history}>
         <div>
-            <Header />
             <Switch>
-                <Route path="/" component={ExpanseDashboardPage} exact={true} />
-                <Route path="/create" component={AddExpensePage} />
-                <Route path="/edit/:id" component={EditExpensePage} />
+                <Route path="/" component={LoginPage} exact={true} />
+                <PrivateRoute path="/dashboard" component={ExpanseDashboardPage} exact={true} />
+                <PrivateRoute path="/create" component={AddExpensePage} />
+                <PrivateRoute path="/edit/:id" component={EditExpensePage} />
                 <Route path="/help" component={HelpPage} />
                 <Route component={NotFoundPage} />
             </Switch>
         </div>
-    </BrowserRouter>
+    </Router>
 );
 
 export default AppRouter;
