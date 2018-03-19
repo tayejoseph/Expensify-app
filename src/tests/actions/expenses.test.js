@@ -2,7 +2,8 @@ import configureMockStore from 'redux-mock-store';
 import thunk from "redux-thunk";
 import { startAddExpense, 
     addExpense, 
-    editExpense, 
+    editExpense,
+    startEditExpense, 
     removeExpense, 
     setExpenses, 
     startSetExpenses, 
@@ -63,6 +64,25 @@ test('should set up edit expense action object', () => {
     });
 });
 
+//u use the done() func when u know that ur test is dealing with a asychronise eg. database
+test("Should edit expense from firebase store", (done) => {
+    const store = createMockStore({});
+    const id = expenses[0].id;
+    const updates = { amount: 21045 };
+    store.dispatch(startEditExpense(id, updates)).then(() => {
+        const action = store.getActions(); //this is used to get the action back
+        expect(action[0]).toEqual({
+            type: "EDIT_EXPENSE",
+            id,
+            updates
+        });
+        return database.ref(`expenses/${id}`).once('value'); //this check for the expense with the id of id
+    }).then((snapshot) => {
+        expect(snapshot.val().amount).toBe(updates.amount);
+        done();
+    });
+    });
+    
 
 test('should setup add expense action object with provided values', () => {
         const action = addExpense(expenses[2]);
