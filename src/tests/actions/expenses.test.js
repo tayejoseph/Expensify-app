@@ -1,6 +1,13 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from "redux-thunk";
-import { startAddExpense, addExpense, editExpense, removeExpense, setExpenses, startSetExpenses } from "../../actions/expenses";
+import { startAddExpense, 
+    addExpense, 
+    editExpense, 
+    removeExpense, 
+    setExpenses, 
+    startSetExpenses, 
+    startRemoveExpense 
+} from "../../actions/expenses";
 import expenses from "../fixtures/expenses";
 import database from "../../firebase/firebase";
 //expect.any(String) this means the code should expect a string as id because the id is unique
@@ -26,7 +33,24 @@ test('Should set up remove expense action object', () => {
         type: 'REMOVE_EXPENSE',
         id: "123abc"
     });
-})
+});
+
+//the done is used so the the test will wait for some time so that the data can change in firebase before it is being tested
+test("Should remove expense from fireBase", (done) => {
+const store = createMockStore({});
+const id = expenses[2].id;
+store.dispatch(startRemoveExpense({ id })).then(() => {
+const actions = store.getActions();
+expect(action).toEqual({
+type: "REMOVE_EXPENSE",
+id
+});
+return database.ref(`expenses/${id}`).once('value');
+}).then((snapshot) => {
+expect(snapshot.val()).toBeFalsy(); //toBeFalsy() is a standard firebase func that check if the value is null
+done();
+});
+});
 
 test('should set up edit expense action object', () => {
     const action = editExpense("123abc", { note: "New note value"} );

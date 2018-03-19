@@ -34,6 +34,17 @@ export const removeExpense = ({ id } = {}) => ({
     id
 });
 
+//START_REMOVEEXPENSE -> this removes items from our firebase database
+export const startRemoveExpense = ({ id } = {}) => {
+//dispatch is authomatically passed to this func by the redux library
+    return (dispatch) => {
+       return database.ref(`expenses/${id}`).remove().then(() => {
+        //once it has be able to be removed from the data base the dispatch below the 
+        //removes it from the app using the removeExpense above
+        dispatch(removeExpense({ id }));
+       });
+};
+};
 
 //EDIT_EXPENSE
 export const editExpense = (id, updates) => ({
