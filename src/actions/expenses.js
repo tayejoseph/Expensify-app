@@ -9,7 +9,8 @@ export const addExpense = (expense) => ({
 });
 
 export const startAddExpense = (expenseData = {}) => {
-    return (dispatch) => {
+    return (dispatch, getState) => {
+        const uid = getState().auth.uid //This gives u the user id
         const {
         description = "",
         note = "",       
@@ -19,7 +20,7 @@ export const startAddExpense = (expenseData = {}) => {
 
         const expense = { description, note, amount, createdAt };
       
-        return database.ref('expenses').push(expense).then((ref) => {
+        return database.ref(`users/${uid}/expenses`).push(expense).then((ref) => {
             dispatch(addExpense({
                 id: ref.key,
                 ...expense
@@ -37,8 +38,9 @@ export const removeExpense = ({ id } = {}) => ({
 //START_REMOVEEXPENSE -> this removes items from our firebase database
 export const startRemoveExpense = ({ id } = {}) => {
 //dispatch is authomatically passed to this func by the redux library
-    return (dispatch) => {
-       return database.ref(`expenses/${id}`).remove().then(() => {
+    return (dispatch, getState) => {
+       const uid = getState().auth.uid;
+       return database.ref(`user/${uid}/expenses/${id}`).remove().then(() => {
         //once it has be able to be removed from the data base the dispatch below the 
         //removes it from the app using the removeExpense above
         dispatch(removeExpense({ id }));
@@ -55,10 +57,11 @@ export const editExpense = (id, updates) => ({
 
 //startEditExpense wrks with the database
 export const startEditExpense = (id, updates) => {
-return (dispatch) => {
-    return database.ref(`expenses/${id}`).update(updates).then(() => {
+return (dispatch, getState) => {
+    const uid = getState().auth.uid
+    return database.ref(`users/${uid}/expenses/${id}`).update(updates).then(() => {
         dispatch(editExpense(id, updates))
-    });
+});
 };
 };
 
@@ -70,9 +73,10 @@ export const setExpenses = (expenses) => ({
 
 //this export is used to get our data from firebase as soon as our page is loaded
 export const startSetExpenses = () => {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+      const uid = getState().auth.uid;
       //this is tell database to get our expenses value once
-     return  database.ref('expenses').once('value').then((snapshot) => {
+     return  database.ref(`users/${uid}/expenses`).once('value').then((snapshot) => {
         const expenses = [];
         //this is used to get our expense from firebase and turn it into an array of objects
         snapshot.forEach((childSnapShot) => {

@@ -4,11 +4,10 @@ import createHistory from "history/createBrowserHistory"; //this is gotten from 
 import ExpanseDashboardPage from "../components/ExpanseDashboardPage";
 import AddExpensePage from "../components/AddExpensePage";
 import EditExpensePage from "../components/EditExpensePage";
-import HelpPage from "../components/HelpPage";
 import NotFoundPage from "../components/NotFoundPage";
 import LoginPage from "../components/loginPage"; //this is a name export that is why we add the { LoginPage } like that 
 import PrivateRoute from "./PrivateRoute";
-
+import PublicRoute from "./PublicRoute";
 
 
 
@@ -34,11 +33,10 @@ const AppRouter = () => (
     <Router history = {history}>
         <div>
             <Switch>
-                <Route path="/" component={LoginPage} exact={true} />
+                <PublicRoute path="/" component={LoginPage} exact={true} />
                 <PrivateRoute path="/dashboard" component={ExpanseDashboardPage} exact={true} />
                 <PrivateRoute path="/create" component={AddExpensePage} />
                 <PrivateRoute path="/edit/:id" component={EditExpensePage} />
-                <Route path="/help" component={HelpPage} />
                 <Route component={NotFoundPage} />
             </Switch>
         </div>
