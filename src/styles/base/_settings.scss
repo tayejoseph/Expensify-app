@@ -1,11 +1,19 @@
 //this file contains all properties that are going to be use regularly eg if we want to 
 //alway color different div with a particular color we come here a give that color a variable 
 //not the variable name is first starting with a dollar sign
+
+
+
 //Colors
+$dark-grey: #333;
+$grey: #666;
+$blue:#1c88bf;
+$dark-blue: #364051;
+$off-white: #f7f7f7;
 
-
-
-
+//Font-size:
+$font-size-large: 1.8rem;
+$font-size-small: 1.4rem;
 //for spacing
 $s-size:1.2rem;
 $m-size: 1.6rem;

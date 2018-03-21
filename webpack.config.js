@@ -19,7 +19,7 @@ const CSSExtract = new ExtractTextPlugin('styles.css');
 
 return {
 //this your original js file
-    entry: "./src/app.js",
+    entry: ["babel-polyfill", "./src/app.js"],
     output: {
         path: path.join(__dirname, 'public',"dist"),//this tell web pack to go to our current directory then to public/dist so that it can find the bundle.js file
 //this is the one web pack compile

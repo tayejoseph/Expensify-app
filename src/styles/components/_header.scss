@@ -1,0 +1,16 @@
+.header {
+    background: $dark-blue;
+}
+.header__content{
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding: $s-size 0;
+}
+.header__title {
+    color: white;
+    text-decoration: none;
+    h1 {// this is used to target all h1 under header__title
+        margin: 0;
+    }
+}

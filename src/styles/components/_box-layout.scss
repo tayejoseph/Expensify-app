@@ -1,0 +1,21 @@
+.box-layout {
+    background: url('/images/bg.jpg'); // note / takes use to the root of the website which is the public folder
+    height: 100vh; //this mean set the height to be 10% of the viewport height
+    width: 100vw;//this mean set the width to be 10% of the viewport width
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.box-layout__box{
+    background: fade-out(white, .15);
+    border-radius: 3px;
+    text-align: center;
+    width: 25rem;
+    padding: $l-size $m-size;
+}
+.box-layout__title{
+    margin: 0 0 $m-size 0;
+    line-height: 1;
+    
+}

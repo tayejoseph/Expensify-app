@@ -6,16 +6,25 @@ import selectExpenses from "../selectors/expenses";
 //the props of expenselist is gotten from mapstatetoprops
 // we are exporting ExpenseList directly because we want to only test and its props it not test it with ExpenseListItem
 export const ExpenseList = (props) => (
-    <div>
+    <div className = "content-container">
+    <div className = "list-header">
+    <div className = "show-for-mobile">Expenses</div>
+    <div className = "show-for-desktop">Expense</div>        
+    <div className = "show-for-desktop">Amount</div> 
+    </div>
+    <div className = "list-body">
     {
     props.expenses.length === 0 ? (
-        <p>No expenses</p>
-    ) : (
+       <div className = "list-item list-item--message">
+        <span>No expenses</span>
+       </div>
+         ) : (
         props.expenses.map((expense) => {
         return <ExpenseListItem key = {expense.id} {...expense} />; //the {...expense} this make expenselistitem to have all the props of expense    
      })
      )
     }
+    </div>
     
     </div>
 );

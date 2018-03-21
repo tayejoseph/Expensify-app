@@ -14,7 +14,7 @@ import "normalize.css/normalize.css";
 import "./styles/style.scss"
 import 'react-dates/lib/css/_datepicker.css'; //the css that came with the react-date library
 import { firebase } from './firebase/firebase';
-
+import LoadingPage from "./components/LoadingPage";
 
 const store = configureStore(); //this is gotten from our configureStore file
 
@@ -34,7 +34,7 @@ const renderApp = () => {
 };
 
 //this will show when our expenses is not ready
-ReactDOM.render(<p>Loading...</p>, document.getElementById("app"));
+ReactDOM.render(<LoadingPage />, document.getElementById("app"));
 
 //this will render the page when our expenses is ready from firebase
 
